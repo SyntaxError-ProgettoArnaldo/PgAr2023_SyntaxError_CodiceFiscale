@@ -11,16 +11,25 @@ public class Main
         InterfacciaXML.leggiPersone(listaPersone);
 
         for (int i = 0; i< listaPersone.length ; i++) {
-            System.out.println(listaPersone[i].getNome());
+            System.out.println(listaPersone[i].toString());
         }
 
 
         InterfacciaXML.inizializzaXML("TestFile/Comuni.xml");
         Comune[] listaComuni = new Comune[InterfacciaXML.leggiNumeroElementi()];
+        InterfacciaXML.leggiComuni(listaComuni);
+
+        for (int i = 0; i< listaComuni.length ; i++) {
+            System.out.println(listaComuni[i].toString());
+        }
+
         InterfacciaXML.inizializzaXML("TestFile/CodiciFiscali.xml");
         CodiceFiscale[] listaCF = new CodiceFiscale[InterfacciaXML.leggiNumeroElementi()];
+        InterfacciaXML.leggiCF(listaCF);
 
-
+        for (int i = 0; i< listaCF.length ; i++) {
+            System.out.println(listaCF[i].toString());
+        }
 
     }
 

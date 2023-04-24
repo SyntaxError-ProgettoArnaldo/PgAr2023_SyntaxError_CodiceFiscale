@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public final class InterfacciaXML
@@ -49,23 +50,142 @@ public final class InterfacciaXML
 
                             break;
                         }
+                        case "cognome":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaPersone[id].setCognome(xmlr.getText());
+                            }
+
+                            break;
+                        }
+                        case "sesso":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaPersone[id].setSesso(xmlr.getText().charAt(0));
+                            }
+
+                            break;
+                        }
+                        case "comune_nascita":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaPersone[id].setLuogo(xmlr.getText());
+                            }
+
+                            break;
+                        }
+                        case "data_nascita":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaPersone[id].setDataDiNascita(LocalDate.parse(xmlr.getText()));
+                            }
+
+                            break;
+                        }
 
                     }
                     break;
-                case XMLStreamConstants.END_ELEMENT: // fine di un elemento: stampa il nome del tag chiuso
-                    //System.out.println("END-Tag " + xmlr.getLocalName()); break;
-                case XMLStreamConstants.COMMENT:
-                    //System.out.println("// commento " + xmlr.getText()); break; // commento: ne stampa il contenuto
-             /*   case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
-                    if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
-                        System.out.println("-> " + xmlr.getText());
-                    break;*/
+
             }
             xmlr.next();
         }
         xmlr.close();
 
     }
+
+    public static void leggiComuni(Comune[] listaComuni) throws XMLStreamException {
+        int id=-1;
+        while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+            switch (xmlr.getEventType()) { // switch sul tipo di evento
+                case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
+                    System.out.println("Start Read Doc "); break;
+                case XMLStreamConstants.START_ELEMENT:
+                    switch(xmlr.getLocalName())
+                    {
+                        case "comune":
+                        {
+                            id++;
+                            listaComuni[id] = new Comune();
+                        }
+                        break;
+                        case "nome":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaComuni[id].setNomeComune(xmlr.getText());
+                            }
+
+                            break;
+                        }
+                        case "codice":
+                        {
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaComuni[id].setCodiceComune(xmlr.getText());
+                            }
+
+                            break;
+                        }
+
+
+                    }
+                    break;
+
+            }
+            xmlr.next();
+        }
+        xmlr.close();
+
+    }
+    public static void leggiCF(CodiceFiscale[] listaCF) throws XMLStreamException {
+        int id=-1;
+        while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+            switch (xmlr.getEventType()) { // switch sul tipo di evento
+                case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
+                    System.out.println("Start Read Doc "); break;
+                case XMLStreamConstants.START_ELEMENT:
+                    switch(xmlr.getLocalName())
+                    {
+                        case "codice":
+                        {
+                            id++;
+                            listaCF[id] = new CodiceFiscale();
+                            while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
+                                xmlr.next();
+                            if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
+                            {
+                                listaCF[id].setNome(xmlr.getText());
+                            }
+                        }
+                        break;
+
+                    }
+                    break;
+
+            }
+            xmlr.next();
+        }
+        xmlr.close();
+
+
+    }
+
 
     public static int leggiNumeroElementi() throws XMLStreamException
     {

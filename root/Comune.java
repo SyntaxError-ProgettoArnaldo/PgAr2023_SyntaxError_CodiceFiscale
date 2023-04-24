@@ -15,4 +15,11 @@ public class Comune
         this.codiceComune = codiceComune;
     }
 
+    @Override
+    public String toString() {
+        return "Comune{" +
+                "nomeComune='" + nomeComune + '\'' +
+                ", codiceComune='" + codiceComune + '\'' +
+                '}';
+    }
 }

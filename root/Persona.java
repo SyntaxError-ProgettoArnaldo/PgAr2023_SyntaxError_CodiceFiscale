@@ -43,7 +43,21 @@ public class Persona
         this.controlloCF = controlloCF;
     }
 
-    public String getNome() {
+    public String getNome()
+    {
         return nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", sesso=" + sesso +
+                ", luogo='" + luogo + '\'' +
+                ", dataDiNascita=" + dataDiNascita +
+                ", codiceFiscale='" + codiceFiscale + '\'' +
+                ", controlloCF=" + controlloCF +
+                '}';
     }
 }
