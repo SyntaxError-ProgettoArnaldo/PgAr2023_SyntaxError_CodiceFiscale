@@ -23,4 +23,6 @@ public class CodiceFiscale
                 ", validitaCF=" + validitaCF +
                 '}';
     }
+
+
 }

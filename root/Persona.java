@@ -48,6 +48,30 @@ public class Persona
         return nome;
     }
 
+    public String getCognome() {
+        return cognome;
+    }
+
+    public char getSesso() {
+        return sesso;
+    }
+
+    public String getLuogo() {
+        return luogo;
+    }
+
+    public LocalDate getDataDiNascita() {
+        return dataDiNascita;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public boolean isControlloCF() {
+        return controlloCF;
+    }
+
     @Override
     public String toString() {
         return "Persona{" +
