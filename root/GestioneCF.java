@@ -9,7 +9,72 @@ public final class GestioneCF
         return CF;
 
     }
-    public static int contaConsonanti(String stringa)
+    public static String creaCognome(Persona persona)
+    {
+        String cognome="";
+        int conta=0;
+
+        for (int i = 0; i < persona.getCognome().length() && conta<3; i++) {
+            if(isConsonante(persona.getCognome().charAt(i)))    {
+                cognome+=persona.getCognome().charAt(i);
+                conta++;
+            }
+        }
+        if(conta<3)     {
+            for (int i = 0; i < persona.getCognome().length() && cognome.length()<3; i++) {
+                if(!isConsonante(persona.getCognome().charAt(i)))
+                {
+                    cognome+=persona.getCognome().charAt(i);
+                }
+            }
+            if(persona.getCognome().length()<3)     {
+                for (int i = 0; i < 3-cognome.length(); i++)
+                {
+                    cognome+="X";
+                }
+            }
+        }
+
+        /*     if(contaConsonanti(persona.getCognome())>2)
+        {
+            for (int i = 0; i < persona.getCognome().length(); i++)
+            {
+                if(isConsonante(persona.getCognome().charAt(i)))
+                {
+                    cognome+= persona.getCognome().charAt(i);
+                    conta++;
+                    if(conta==3) break;
+                }
+            }
+        }
+        else if(persona.getCognome().length()<3)
+        {
+            cognome+=persona.getCognome();
+            for (int i = 0; i < 3-persona.getCognome().length(); i++)
+            {
+                cognome+="X";
+            }
+        }
+        else    {
+            for (int i = 0; i < persona.getCognome().length(); i++)
+            {
+             if(isConsonante(persona.getCognome().charAt(i)))
+             {
+                 cognome+=persona.getCognome().charAt(i);
+             }
+            }
+            for (int i = 0; i < persona.getCognome().length() && cognome.length()<3; i++) {
+                if(!isConsonante(persona.getCognome().charAt(i)))
+                {
+                    cognome+=persona.getCognome().charAt(i);
+                }
+            }
+        }*/
+
+        return cognome;
+    }
+
+   /* public static int contaConsonanti(String stringa)
     {
         int count = 0;
         char[] vocali = {'a','e','i','o','u'};
@@ -21,27 +86,8 @@ public final class GestioneCF
             }
         }
         return stringa.length()-count;
-
-
-
     }
-    public static String creaCognome(Persona persona)
-    {
-        String cognome="";
-        int conta=0;
-        if(contaConsonanti(persona.getCognome())>3)
-        {
-            for (int i = 0; i < persona.getCognome().length(); i++) {
-                if(isConsonante(persona.getCognome().charAt(i)))    {
-                    cognome+= persona.getCognome().charAt(i);
-                    conta++;
-                    if(conta==3) break;
-                }
-            }
-        }
-        return cognome;
-    }
-
+    */
     public static boolean isConsonante(char carattere){
         char[] vocali = {'a','e','i','o','u'};
 

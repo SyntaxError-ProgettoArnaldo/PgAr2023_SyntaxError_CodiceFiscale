@@ -14,10 +14,6 @@ public class Main
             System.out.println(listaPersone[i].toString());
         }
 
-        for (int i = 0; i < listaPersone.length; i++) {
-            GestioneCF.creaCF(listaPersone[i]);
-        }
-
         InterfacciaXML.inizializzaXML("TestFile/Comuni.xml");
         Comune[] listaComuni = new Comune[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiComuni(listaComuni);
@@ -34,7 +30,10 @@ public class Main
             System.out.println(listaCF[i].toString());
         }
 
-        System.out.println(GestioneCF.creaCF(listaPersone[0]));
+        for (int i = 0; i < listaPersone.length; i++) {
+            System.out.println( GestioneCF.creaCF(listaPersone[i]));
+        }
+
     }
 
 }
