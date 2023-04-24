@@ -77,7 +77,7 @@ public final class GestioneCF
    /* public static int contaConsonanti(String stringa)
     {
         int count = 0;
-        char[] vocali = {'a','e','i','o','u'};
+        char[] vocali = {'a','e','i','o','u','A','E','I','O','U'};
         for (int i = 0; i < stringa.length(); i++) {
             for (int j=0 ; j<vocali.length;j++)
             {
@@ -89,7 +89,7 @@ public final class GestioneCF
     }
     */
     public static boolean isConsonante(char carattere){
-        char[] vocali = {'a','e','i','o','u'};
+        char[] vocali = {'a','e','i','o','u','A','E','I','O','U'};
 
         for (int i = 0; i < vocali.length; i++) {
             if(carattere==vocali[i])    {
