@@ -144,7 +144,7 @@ public final class InterfacciaXML
                 case XMLStreamConstants.START_ELEMENT:
                     switch(xmlr.getLocalName())
                     {
-                        case Costanti.TAG_COMUNE_NASCITA:
+                        case Costanti.TAG_COMUNE:
                         {
                             id++;
                             listaComuni[id] = new Comune();
