@@ -8,19 +8,19 @@ public class Main
     {
         GestioneCF.setMappaMesi();
 
-        InterfacciaXML.inizializzaXMLLettura("Prova/InputPersone.xml");
+        InterfacciaXML.inizializzaXMLLettura("TestFile/InputPersone.xml");
         Persona[] listaPersone = new Persona[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiPersone(listaPersone);
 
 
-        InterfacciaXML.inizializzaXMLLettura("Prova/Comuni.xml");
+        InterfacciaXML.inizializzaXMLLettura("TestFile/Comuni.xml");
         Comune[] listaComuni = new Comune[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiComuni(listaComuni);
 
 
 
 
-        InterfacciaXML.inizializzaXMLLettura("Prova/CodiciFiscali.xml");
+        InterfacciaXML.inizializzaXMLLettura("TestFile/CodiciFiscali.xml");
         CodiceFiscale[] listaCF = new CodiceFiscale[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiCF(listaCF);
 

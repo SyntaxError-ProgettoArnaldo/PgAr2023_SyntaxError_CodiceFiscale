@@ -317,7 +317,7 @@ public final class GestioneCF
             cf.setValiditaCF(ValiditaCF.INVALIDO);
         }
 
-        else if(codiceComuneEsiste(listaComuni,cf))
+        else if(!codiceComuneEsiste(listaComuni,cf))
         {
             cf.setValiditaCF(ValiditaCF.INVALIDO);
         }
