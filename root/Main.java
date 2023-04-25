@@ -41,9 +41,6 @@ public class Main
 
         InterfacciaXML.scriviPersone(listaPersone,listaCF);
 
-
-
-
     }
 
 }

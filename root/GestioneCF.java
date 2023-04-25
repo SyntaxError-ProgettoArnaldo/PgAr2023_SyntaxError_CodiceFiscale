@@ -66,7 +66,7 @@ public final class GestioneCF
     }
 
     /**
-     * Crea il codice relativo al giorno ed al sesso della persoma
+     * Crea il codice relativo al giorno ed al sesso della persona
      * @param persona Persona di cui si vuole generare il codice
      * @return il codice
      */
@@ -281,6 +281,15 @@ public final class GestioneCF
                 break;
             }
         }
+
+        for (int i = 0; i < 2; i++) {
+            if(!isConsonante(cf.getNome().charAt(i)) && (isConsonante(cf.getNome().charAt(i+1))) && cf.getNome().charAt(i+1)!='X')
+            {
+                cf.setValiditaCF(ValiditaCF.INVALIDO);
+                break;
+            }
+        }
+
         for (int i = 6; i < 8; i++)
         {
             if(!Character.isDigit(cf.getNome().charAt(i)))
@@ -289,12 +298,21 @@ public final class GestioneCF
                 break;
             }
         }
+
+        for (int i = 3; i < 5; i++) {
+            if(!isConsonante(cf.getNome().charAt(i)) && isConsonante(cf.getNome().charAt(i+1)) && cf.getNome().charAt(i+1)!='X')
+            {
+                cf.setValiditaCF(ValiditaCF.INVALIDO);
+                break;
+            }
+        }
+
         if(!mappaMesi.containsValue(cf.getNome().charAt(8)))
         {
             cf.setValiditaCF(ValiditaCF.INVALIDO);
         }
         //negato
-        else if(!(Integer.parseInt(cf.getNome().substring(9,10))>0 && Integer.parseInt(cf.getNome().substring(9,10))<32 || Integer.parseInt(cf.getNome().substring(9,10))>40 && Integer.parseInt(cf.getNome().substring(9,10))<72))
+        else if(!(Integer.parseInt(cf.getNome().substring(9,11))>0 && Integer.parseInt(cf.getNome().substring(9,11))<32 || Integer.parseInt(cf.getNome().substring(9,11))>40 && Integer.parseInt(cf.getNome().substring(9,11))<72))
         {
             cf.setValiditaCF(ValiditaCF.INVALIDO);
         }
@@ -324,14 +342,13 @@ public final class GestioneCF
      */
     public static boolean codiceComuneEsiste(Comune[] listaComuni,CodiceFiscale cf)
     {
-        boolean trovato = false;
         for (int i = 0; i < listaComuni.length; i++) {
-            if(listaComuni[i].getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11,14)))
+            if(listaComuni[i].getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11,15)))
             {
-                trovato = true;
+                return true;
             }
         }
-        return trovato;
+        return false;
     }
 
 
