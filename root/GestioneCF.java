@@ -1,14 +1,16 @@
 package root;
-
-
-import javax.xml.stream.XMLStreamException;
 import java.util.HashMap;
 
 public final class GestioneCF
 {
 
+    //mappa dei mesi per creare il carattere relativo al mese di nascita
+    //fonte: wikipedia.org
     static HashMap<String,Character> mappaMesi = new HashMap<>();
 
+    /**
+     * Inizializza la mappaMesi con i dati presi da wikipedia
+     */
     public static void setMappaMesi()
     {
         mappaMesi.put("JANUARY",'A');
@@ -26,22 +28,33 @@ public final class GestioneCF
     }
 
 
+    /**
+     * Genera e inserisce il codice fiscale
+     * @param persona La persona di cui si vuole generare il codice fiscale
+     * @param listaComuni Lista dei comuni e dei loro relativi codici
+     */
     public static void creaCF(Persona persona,Comune[] listaComuni)
     {
         setMappaMesi();
         String cf = "";
-        cf+=creaCognome(persona);
-        cf+=creaNome(persona);
-        cf+=creaAnno(persona);
-        cf+=creaMese(persona);
-        cf+=creaGiornoSesso(persona);
-        cf+=creaComune(persona,listaComuni);
-        cf+="A";
+        cf+= creaCodiceCognome(persona);
+        cf+= creaCodiceNome(persona);
+        cf+= creaCodiceAnno(persona);
+        cf+= creaCodiceMese(persona);
+        cf+= creaCodiceGiornoSesso(persona);
+        cf+= creaCodiceComune(persona,listaComuni);
+        cf+=Costanti.CHAR_CONTROLLO_DEFAULT;
         persona.setCodiceFiscale(cf);
 
     }
 
-    private static String creaComune(Persona persona,Comune[] listaComuni)
+    /**
+     * Genera il codice relativo al comune di nascita della persona
+     * @param persona Persona di cui si vuole generare il codice
+     * @param listaComuni
+     * @return il codice
+     */
+    private static String creaCodiceComune(Persona persona, Comune[] listaComuni)
     {
         for (int i = 0; i < listaComuni.length; i++) {
             if(persona.getLuogo().equalsIgnoreCase(listaComuni[i].getNomeComune()))
@@ -52,13 +65,18 @@ public final class GestioneCF
         return null;
     }
 
-    private static String creaGiornoSesso(Persona persona)
+    /**
+     * Crea il codice relativo al giorno ed al sesso della persoma
+     * @param persona Persona di cui si vuole generare il codice
+     * @return il codice
+     */
+    private static String creaCodiceGiornoSesso(Persona persona)
     {
-        if(persona.getSesso()=='F')
+        if(persona.getSesso()==Costanti.SESSOF)
         {
-            return String.valueOf(persona.getDataDiNascita().getDayOfMonth()+40);
+            return String.valueOf(persona.getDataDiNascita().getDayOfMonth()+Costanti.AGG_FEMM);
         }
-        if(persona.getDataDiNascita().getDayOfMonth()<10)
+        if(persona.getDataDiNascita().getDayOfMonth()<Costanti.MAX_DOPPIACIFRA)
         {
             return "0"+persona.getDataDiNascita().getDayOfMonth();
         }
@@ -67,12 +85,22 @@ public final class GestioneCF
 
     }
 
-    private static char creaMese(Persona persona)
+    /**
+     * Genera il codice relativo al mese di nascita
+     * @param persona Persona di cui si vuole generare il codice
+     * @return
+     */
+    private static char creaCodiceMese(Persona persona)
     {
         return mappaMesi.get(String.valueOf(persona.getDataDiNascita().getMonth()));
 
     }
 
+    /**
+     * @param s La stringa iniziale
+     * @param n Il numero di ultii caratteri che si vuole ottenere
+     * @return gli ultimi caratteri inseriti in una stringa
+     */
     public static String prendiUltimiCaratteri(String s, int n)
     {
         if (s == null || n > s.length()) {
@@ -82,12 +110,21 @@ public final class GestioneCF
     }
 
 
-
-    private static String creaAnno(Persona persona) {
+    /**
+     * Genera il codice relativo all anno di nascita
+     * @param persona Persona di cui si vuole generare il codice
+     * @return
+     */
+    private static String creaCodiceAnno(Persona persona) {
         return prendiUltimiCaratteri(String.valueOf(persona.getDataDiNascita().getYear()),2);
     }
 
-    public static String creaCognome(Persona persona)
+    /**
+     * Genera il codice relativo al cognome
+     * @param persona Persona di cui si vuole generare il codice
+     * @return il codice
+     */
+    public static String creaCodiceCognome(Persona persona)
     {
         String cognome="";
         int conta=0;
@@ -120,7 +157,12 @@ public final class GestioneCF
         return cognome;
     }
 
-    public static String creaNome(Persona persona)
+    /**
+     * Genera il codice relativo al nome
+     * @param persona Persona di cui si vuole generare il codice
+     * @return il codice
+     */
+    public static String creaCodiceNome(Persona persona)
     {
 
         String nome="";
@@ -174,7 +216,7 @@ public final class GestioneCF
 
     public static int contaConsonanti(String stringa)
     {
-        int count = 0;
+        int count = 0;  //SOMMA VOCALI
         char[] vocali = {'a','e','i','o','u','A','E','I','O','U'};
         for (int i = 0; i < stringa.length(); i++) {
             for (int j=0 ; j<vocali.length;j++)
@@ -183,7 +225,7 @@ public final class GestioneCF
                     count++;
             }
         }
-        return stringa.length()-count;
+        return stringa.length()-count;  //consonanti = lenght stringa iniziale - vocali
     }
 
     public static boolean isConsonante(char carattere)
@@ -198,11 +240,17 @@ public final class GestioneCF
         return true;
     }
 
+    /**
+     * Controlla se un
+     * @param codiciFiscali
+     * @param cf
+     * @return
+     */
     public static String cercaCF(CodiceFiscale[] codiciFiscali, String cf)
     {
         boolean cfTrovato = false;
         for (int i = 0; i < codiciFiscali.length; i++) {
-            if(codiciFiscali[i].getNome().substring(0,codiciFiscali[i].getNome().length()-2).equalsIgnoreCase(cf.substring(0,cf.length()-2)))
+            if(codiciFiscali[i].getNome().substring(0,codiciFiscali[i].getNome().length()-Costanti.N_CHAR_DA_NON_CONTROLLARE).equalsIgnoreCase(cf.substring(0,cf.length()-Costanti.N_CHAR_DA_NON_CONTROLLARE)))
             {
                 codiciFiscali[i].setValiditaCF(ValiditaCF.VALIDO);
                 cfTrovato=true;
@@ -218,6 +266,12 @@ public final class GestioneCF
         return cf;
     }
 
+    /**
+     * Controlla se un codice fiscale è valido oppure no
+     * Nel caso non lo sia verra asseganto nell oggetto attributo validitaCF su INVALIDO
+     * @param cf
+     * @param listaComuni
+     */
     public static void validazioneCF(CodiceFiscale cf, Comune[] listaComuni)
     {
         for (int i = 0; i < 6; i++) {
@@ -262,6 +316,12 @@ public final class GestioneCF
 
     }
 
+    /**
+     * Controlla se il codice comune esiste nella lista comuni
+     * @param listaComuni
+     * @param cf
+     * @return true/false se è stato trovato
+     */
     public static boolean codiceComuneEsiste(Comune[] listaComuni,CodiceFiscale cf)
     {
         boolean trovato = false;

@@ -14,9 +14,12 @@ public final class InterfacciaXML
 {
     static XMLInputFactory xmlif = null;
     static XMLStreamReader xmlr = null;
-
     static XMLOutputFactory xmlof = null;
     static XMLStreamWriter xmlw = null;
+
+    /**
+     * @param filename path del file con cui inizializzare
+     */
     public static void inizializzaXMLLettura(String filename)
     {
 
@@ -29,7 +32,9 @@ public final class InterfacciaXML
 
         }
     }
-
+    /**
+     * @param filename path del file con cui inizializzare
+     */
     public static void inizializzaXMLScrittura(String filename)
     {
         try {
@@ -41,6 +46,11 @@ public final class InterfacciaXML
     }
 
 
+    /**
+     * Legge il file xml e crea gli oggetti inserendoli nell array
+     * @param listaPersone
+     * @throws XMLStreamException
+     */
     public static void leggiPersone(Persona[] listaPersone) throws XMLStreamException {
         int id=0;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -122,6 +132,11 @@ public final class InterfacciaXML
 
     }
 
+    /**
+     * Legge il file xml e crea gli oggetti inserendoli nell array
+     * @param listaComuni
+     * @throws XMLStreamException
+     */
     public static void leggiComuni(Comune[] listaComuni) throws XMLStreamException {
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -170,6 +185,11 @@ public final class InterfacciaXML
         xmlr.close();
 
     }
+    /**
+     * Legge il file xml e crea gli oggetti inserendoli nell array
+     * @param listaCF
+     * @throws XMLStreamException
+     */
     public static void leggiCF(CodiceFiscale[] listaCF) throws XMLStreamException {
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -203,9 +223,14 @@ public final class InterfacciaXML
 
     }
 
+    /**
+     * Scrive su un fil xml
+     * @param listaPersone
+     * @param listaCF
+     */
     public static void scriviPersone(Persona[] listaPersone, CodiceFiscale[] listaCF)
     {
-        inizializzaXMLScrittura("codiciPersone.xml");
+        inizializzaXMLScrittura(Costanti.NOME_FILE_OUTPUT);
         try { // blocco try per raccogliere eccezioni
             xmlw.writeStartElement("output"); // scrittura del tag radice <programmaArnaldo>
             xmlw.writeStartElement("persone");
@@ -272,10 +297,15 @@ public final class InterfacciaXML
         }
         catch (Exception e)
         {   // se c’è un errore viene eseguita questa parte
-            System.out.println("Errore nella scrittura");
+            System.out.println(Costanti.ERR_SCRITTURA);
         }
     }
 
+    /**
+     * Conta quanti cf spaiati ci sono
+     * @param listaCF
+     * @return
+     */
     private static int getNumeroSpaiati(CodiceFiscale[] listaCF)
     {
         int count = 0;
@@ -288,6 +318,11 @@ public final class InterfacciaXML
         return count;
     }
 
+    /**
+     * Conta quanti cf validi ci sono
+     * @param listaCF
+     * @return
+     */
     private static int getNumeroInvalidi(CodiceFiscale[] listaCF)
     {
         int count = 0;
@@ -302,6 +337,10 @@ public final class InterfacciaXML
     }
 
 
+    /**
+     * @return numero degli elementi che vengono indicati come primo attributo in un file xml
+     * @throws XMLStreamException
+     */
     public static int leggiNumeroElementi() throws XMLStreamException
     {
         xmlr.next();
