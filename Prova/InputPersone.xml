@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persone numero="2">
-    <persona id="0">
-        <nome>GIUSEPPE</nome>
-        <cognome>MUSSO</cognome>
-        <sesso>M</sesso>
-        <comune_nascita>ALCARA LI FUSI</comune_nascita>
-        <data_nascita>1940-04-27</data_nascita>
-    </persona>
-    <persona id="1">
-        <nome>MARIA</nome>
-        <cognome>CERRATO</cognome>
-        <sesso>F</sesso>
-        <comune_nascita>POLONGHERA</comune_nascita>
-        <data_nascita>1939-03-04</data_nascita>
-    </persona>
+<persone numero="0">
+
 </persone>

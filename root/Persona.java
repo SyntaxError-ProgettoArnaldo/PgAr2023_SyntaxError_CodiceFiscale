@@ -10,7 +10,6 @@ public class Persona
     private String luogo;
     private LocalDate dataDiNascita;
     private String codiceFiscale;
-    private boolean controlloCF =  false;        //Inizializzo il controllo della corrispondenza del codice fiscale a false
 
     public Persona(){
     }
@@ -39,9 +38,6 @@ public class Persona
         this.codiceFiscale = codiceFiscale;
     }
 
-    public void setControlloCF(boolean controlloCF) {
-        this.controlloCF = controlloCF;
-    }
 
     public String getNome()
     {
@@ -68,9 +64,6 @@ public class Persona
         return codiceFiscale;
     }
 
-    public boolean isControlloCF() {
-        return controlloCF;
-    }
 
     @Override
     public String toString() {
@@ -81,7 +74,6 @@ public class Persona
                 ", luogo='" + luogo + '\'' +
                 ", dataDiNascita=" + dataDiNascita +
                 ", codiceFiscale='" + codiceFiscale + '\'' +
-                ", controlloCF=" + controlloCF +
                 '}';
     }
 }

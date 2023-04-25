@@ -6,33 +6,43 @@ public class Main
 {
     public static void main(String[] args) throws XMLStreamException
     {
-        InterfacciaXML.inizializzaXML("TestFile/InputPersone.xml");
+        GestioneCF.setMappaMesi();
+
+        InterfacciaXML.inizializzaXMLLettura("Prova/InputPersone.xml");
         Persona[] listaPersone = new Persona[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiPersone(listaPersone);
 
-        for (int i = 0; i< listaPersone.length ; i++) {
-            System.out.println(listaPersone[i].toString());
-        }
 
-        InterfacciaXML.inizializzaXML("TestFile/Comuni.xml");
+        InterfacciaXML.inizializzaXMLLettura("Prova/Comuni.xml");
         Comune[] listaComuni = new Comune[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiComuni(listaComuni);
 
-        for (int i = 0; i< listaComuni.length ; i++) {
-            System.out.println(listaComuni[i].toString());
-        }
 
-        InterfacciaXML.inizializzaXML("TestFile/CodiciFiscali.xml");
+
+
+        InterfacciaXML.inizializzaXMLLettura("Prova/CodiciFiscali.xml");
         CodiceFiscale[] listaCF = new CodiceFiscale[InterfacciaXML.leggiNumeroElementi()];
         InterfacciaXML.leggiCF(listaCF);
 
-        for (int i = 0; i< listaCF.length ; i++) {
+
+
+        for (int i = 0; i < listaPersone.length; i++) {
+            GestioneCF.creaCF(listaPersone[i],listaComuni);
+            listaPersone[i].setCodiceFiscale(GestioneCF.cercaCF(listaCF,listaPersone[i].getCodiceFiscale()));
+            System.out.println(listaPersone[i].toString());
+            //System.out.println(listaPersone[i].getCodiceFiscale());
+        }
+
+        for (int i = 0; i < listaCF.length; i++)
+        {
+            GestioneCF.validazioneCF(listaCF[i],listaComuni);
             System.out.println(listaCF[i].toString());
         }
 
-        for (int i = 0; i < listaPersone.length; i++) {
-            System.out.println( GestioneCF.creaCF(listaPersone[i]));
-        }
+        InterfacciaXML.scriviPersone(listaPersone,listaCF);
+
+
+
 
     }
 

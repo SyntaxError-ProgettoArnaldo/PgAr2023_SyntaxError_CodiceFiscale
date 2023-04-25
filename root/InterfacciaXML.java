@@ -4,15 +4,20 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public final class InterfacciaXML
 {
     static XMLInputFactory xmlif = null;
     static XMLStreamReader xmlr = null;
-    public static void inizializzaXML(String filename)
+
+    static XMLOutputFactory xmlof = null;
+    static XMLStreamWriter xmlw = null;
+    public static void inizializzaXMLLettura(String filename)
     {
 
         try {
@@ -24,6 +29,18 @@ public final class InterfacciaXML
 
         }
     }
+
+    public static void inizializzaXMLScrittura(String filename)
+    {
+        try {
+            xmlof = XMLOutputFactory.newInstance();
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filename), "utf-8"); xmlw.writeStartDocument("utf-8", "2.0");
+        } catch (Exception e) {
+            System.out.println("Errore nell'inizializzazione del writer:"); System.out.println(e.getMessage());
+        }
+    }
+
+
     public static void leggiPersone(Persona[] listaPersone) throws XMLStreamException {
         int id=0;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -183,6 +200,104 @@ public final class InterfacciaXML
         }
         xmlr.close();
 
+
+    }
+
+    public static void scriviPersone(Persona[] listaPersone, CodiceFiscale[] listaCF)
+    {
+        inizializzaXMLScrittura("codiciPersone.xml");
+        try { // blocco try per raccogliere eccezioni
+            xmlw.writeStartElement("output"); // scrittura del tag radice <programmaArnaldo>
+            xmlw.writeStartElement("persone");
+            xmlw.writeAttribute("numero",String.valueOf(listaPersone.length));
+            for (int i = 0; i < listaPersone.length; i++) {
+                xmlw.writeStartElement("persona"); // scrittura del tag autore...
+                xmlw.writeAttribute("id", Integer.toString(i)); // ...con attributo id...
+                xmlw.writeStartElement("nome");
+                xmlw.writeCharacters(listaPersone[i].getNome());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("cognome");
+                xmlw.writeCharacters(listaPersone[i].getCognome());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("sesso");
+                xmlw.writeCharacters(String.valueOf(listaPersone[i].getSesso()));
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("comune_nascita");
+                xmlw.writeCharacters(listaPersone[i].getLuogo());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("data_nascita");
+                xmlw.writeCharacters(listaPersone[i].getDataDiNascita().toString());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("codice_fiscale");
+                xmlw.writeCharacters(listaPersone[i].getCodiceFiscale());
+                xmlw.writeEndElement();
+                xmlw.writeEndElement();
+
+            }
+            xmlw.writeEndElement(); // chiusura di </programmaArnaldo>
+
+            xmlw.writeStartElement("codici");
+            xmlw.writeStartElement("invalidi");
+
+            xmlw.writeAttribute("numero",String.valueOf(getNumeroInvalidi(listaCF)));
+            for (int i = 0; i < listaCF.length; i++) {
+                if(listaCF[i].getValiditaCF().equals(ValiditaCF.INVALIDO))
+                {
+                    xmlw.writeStartElement("codice");
+                    xmlw.writeCharacters(listaCF[i].getNome());
+                    xmlw.writeEndElement();
+                }
+            }
+            xmlw.writeEndElement();
+
+            xmlw.writeStartElement("spaiati");
+
+            xmlw.writeAttribute("numero",String.valueOf(getNumeroSpaiati(listaCF)));
+            for (int i = 0; i < listaCF.length; i++) {
+                if(listaCF[i].getValiditaCF().equals(ValiditaCF.SPAIATO))
+                {
+                    xmlw.writeStartElement("codice");
+                    xmlw.writeCharacters(listaCF[i].getNome());
+                    xmlw.writeEndElement();
+                }
+            }
+            xmlw.writeEndElement();
+            xmlw.writeEndElement();
+
+
+
+            xmlw.writeEndDocument(); // scrittura della fine del documento
+            xmlw.flush();// svuota il buffer e procede alla scrittura
+            xmlw.close(); // chiusura del documento e delle risorse impiegate
+        }
+        catch (Exception e)
+        {   // se c’è un errore viene eseguita questa parte
+            System.out.println("Errore nella scrittura");
+        }
+    }
+
+    private static int getNumeroSpaiati(CodiceFiscale[] listaCF)
+    {
+        int count = 0;
+        for (int i = 0; i < listaCF.length; i++) {
+            if(listaCF[i].getValiditaCF().equals(ValiditaCF.SPAIATO))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static int getNumeroInvalidi(CodiceFiscale[] listaCF)
+    {
+        int count = 0;
+        for (int i = 0; i < listaCF.length; i++) {
+            if(listaCF[i].getValiditaCF().equals(ValiditaCF.INVALIDO))
+            {
+                count++;
+            }
+        }
+        return count;
 
     }
 

@@ -15,6 +15,14 @@ public class Comune
         this.codiceComune = codiceComune;
     }
 
+    public String getNomeComune() {
+        return nomeComune;
+    }
+
+    public String getCodiceComune() {
+        return codiceComune;
+    }
+
     @Override
     public String toString() {
         return "Comune{" +
