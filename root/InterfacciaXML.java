@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
+import UnibsLib.AnsiColors;
 
 public final class InterfacciaXML
 {
@@ -53,10 +54,9 @@ public final class InterfacciaXML
      */
     public static void leggiPersone(Persona[] listaPersone) throws XMLStreamException {
         int id=0;
+        System.out.println(AnsiColors.GREEN+Costanti.MESS_INIZIO_LETTURA+AnsiColors.RESET);
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
             switch (xmlr.getEventType()) { // switch sul tipo di evento
-                case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                    System.out.println(Costanti.MESS_INIZIO_LETTURA); break;
                 case XMLStreamConstants.START_ELEMENT:
                     switch(xmlr.getLocalName())
                     {
@@ -129,7 +129,8 @@ public final class InterfacciaXML
             xmlr.next();
         }
         xmlr.close();
-
+        id++;
+        System.out.println(AnsiColors.GREEN+"Sono state acquisite "+AnsiColors.RED+id+AnsiColors.GREEN+" persone correttamente"+AnsiColors.RESET);
     }
 
     /**
@@ -181,7 +182,8 @@ public final class InterfacciaXML
             xmlr.next();
         }
         xmlr.close();
-
+        id++;
+        System.out.println(AnsiColors.GREEN+"Sono stati acquisiti "+AnsiColors.RED+id+AnsiColors.GREEN+" comuni correttamente"+AnsiColors.RESET);
     }
     /**
      * Legge il file xml e crea gli oggetti inserendoli nell array
@@ -215,7 +217,8 @@ public final class InterfacciaXML
             xmlr.next();
         }
         xmlr.close();
-
+        id++;
+        System.out.println(AnsiColors.GREEN+"Sono stati acquisiti "+AnsiColors.RED+id+AnsiColors.GREEN+" codici fiscali correttamente"+AnsiColors.RESET);
 
     }
 

@@ -12,7 +12,7 @@ public class Main
         for (int i = 0; i < listaPersone.length; i++) {
             GestioneCF.creaCF(listaPersone[i],listaComuni);
             listaPersone[i].setCodiceFiscale(GestioneCF.cercaCF(listaCF,listaPersone[i].getCodiceFiscale()));
-            System.out.println(listaPersone[i].toString());
+            //System.out.println(listaPersone[i].toString());
             //System.out.println(listaPersone[i].getCodiceFiscale());
         }
     }
@@ -22,7 +22,7 @@ public class Main
         for (int i = 0; i < listaCF.length; i++)
         {
             GestioneCF.validazioneCF(listaCF[i],listaComuni);
-            System.out.println(listaCF[i].toString());
+            //System.out.println(listaCF[i].toString());
         }
     }
 
