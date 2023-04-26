@@ -41,11 +41,7 @@ public final class InterfacciaJSON {
         Type userType = new TypeToken<ArrayList<Comune>>(){}.getType();
         ArrayList<Comune> comuniMap = gson.fromJson(fileReader, userType);
 
-        for (int i = 0; i < comuniMap.size(); i++) {
-            listaComuni.add(new Comune());
-            listaComuni.get(i).setNomeComune(comuniMap.get(i).getNomeComune());
-            listaComuni.get(i).setCodiceComune(comuniMap.get(i).getCodiceComune());
-        }
+        listaComuni.addAll(comuniMap);
 
         fileReader.close();
         System.out.println(AnsiColors.GREEN+"Sono stati acquisiti "+AnsiColors.RED+comuniMap.size()+AnsiColors.GREEN+" comini correttamente"+AnsiColors.RESET);
@@ -62,8 +58,7 @@ public final class InterfacciaJSON {
         ArrayList<String> cfMap = gson.fromJson(fileReader, userType);
 
         for (int i = 0; i < cfMap.size(); i++) {
-            listaCF.add(new CodiceFiscale());
-            listaCF.get(i).setNome(cfMap.get(i));
+            listaCF.add(new CodiceFiscale(cfMap.get(i)));
         }
 
         fileReader.close();

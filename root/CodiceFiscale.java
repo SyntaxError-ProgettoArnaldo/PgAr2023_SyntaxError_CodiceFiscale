@@ -9,6 +9,10 @@ public class CodiceFiscale
 
     public CodiceFiscale() {}
 
+    public CodiceFiscale(String nome) {
+        this.nome = nome;
+    }
+
     public void setNome(String nome)
     {
         this.nome = nome;
