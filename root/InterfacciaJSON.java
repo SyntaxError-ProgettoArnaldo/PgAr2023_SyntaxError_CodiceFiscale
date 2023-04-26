@@ -82,7 +82,7 @@ public final class InterfacciaJSON {
             datiPersone.put("sesso",String.valueOf(listaPersone.get(i).getSesso()));
             datiPersone.put("luogo_nascita",listaPersone.get(i).getLuogo());
             datiPersone.put("data_nascita",listaPersone.get(i).getDataDiNascita().toString());
-            datiPersone.put("codice_fisclae",listaPersone.get(i).getCodiceFiscale());
+            datiPersone.put("codice_fiscale",listaPersone.get(i).getCodiceFiscale());
             listaMapPersone.add(new HashMap<>(datiPersone));
         }
 
@@ -110,10 +110,11 @@ public final class InterfacciaJSON {
 
         spaiatiMap.put("spaiati",cfSpaiati);
 
-
-        gson.toJson(personaMap, fileWriter);
-        gson.toJson(invalidiMap, fileWriter);
-        gson.toJson(spaiatiMap,fileWriter);
+        Map<String, Object> map = new HashMap<>();
+        map.put("persona",listaMapPersone);
+        map.put("invalidi", invalidiMap);
+        map.put("spaiati", spaiatiMap);
+        gson.toJson(map,fileWriter);
 
         fileWriter.close();
 
