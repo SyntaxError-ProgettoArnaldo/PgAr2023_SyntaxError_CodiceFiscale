@@ -1,4 +1,5 @@
 package root;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class GestioneCF
@@ -33,7 +34,7 @@ public final class GestioneCF
      * @param persona La persona di cui si vuole generare il codice fiscale
      * @param listaComuni Lista dei comuni e dei loro relativi codici
      */
-    public static void creaCF(Persona persona,Comune[] listaComuni)
+    public static void creaCF(Persona persona, ArrayList<Comune> listaComuni)
     {
         setMappaMesi();
         String cf = "";
@@ -54,12 +55,12 @@ public final class GestioneCF
      * @param listaComuni
      * @return il codice
      */
-    private static String creaCodiceComune(Persona persona, Comune[] listaComuni)
+    private static String creaCodiceComune(Persona persona, ArrayList<Comune> listaComuni)
     {
-        for (int i = 0; i < listaComuni.length; i++) {
-            if(persona.getLuogo().equalsIgnoreCase(listaComuni[i].getNomeComune()))
+        for (int i = 0; i < listaComuni.size(); i++) {
+            if(persona.getLuogo().equalsIgnoreCase(listaComuni.get(i).getNomeComune()))
             {
-                return listaComuni[i].getCodiceComune();
+                return listaComuni.get(i).getCodiceComune();
             }
         }
         return null;
@@ -246,15 +247,15 @@ public final class GestioneCF
      * @param cf
      * @return
      */
-    public static String cercaCF(CodiceFiscale[] codiciFiscali, String cf)
+    public static String cercaCF(ArrayList<CodiceFiscale> codiciFiscali, String cf)
     {
         boolean cfTrovato = false;
-        for (int i = 0; i < codiciFiscali.length; i++) {
-            if(codiciFiscali[i].getNome().substring(0,codiciFiscali[i].getNome().length()-Costanti.N_CHAR_DA_NON_CONTROLLARE).equalsIgnoreCase(cf.substring(0,cf.length()-Costanti.N_CHAR_DA_NON_CONTROLLARE)))
+        for (int i = 0; i < codiciFiscali.size(); i++) {
+            if(codiciFiscali.get(i).getNome().substring(0,codiciFiscali.get(i).getNome().length()-Costanti.N_CHAR_DA_NON_CONTROLLARE).equalsIgnoreCase(cf.substring(0,cf.length()-Costanti.N_CHAR_DA_NON_CONTROLLARE)))
             {
-                codiciFiscali[i].setValiditaCF(ValiditaCF.VALIDO);
+                codiciFiscali.get(i).setValiditaCF(ValiditaCF.VALIDO);
                 cfTrovato=true;
-                cf= codiciFiscali[i].getNome();
+                cf= codiciFiscali.get(i).getNome();
 
             }
         }
@@ -272,7 +273,7 @@ public final class GestioneCF
      * @param cf
      * @param listaComuni
      */
-    public static void validazioneCF(CodiceFiscale cf, Comune[] listaComuni)
+    public static void validazioneCF(CodiceFiscale cf, ArrayList<Comune> listaComuni)
     {
         for (int i = 0; i < 6; i++) {
             if(Character.isDigit(cf.getNome().charAt(i)))
@@ -340,22 +341,15 @@ public final class GestioneCF
      * @param cf
      * @return true/false se è stato trovato
      */
-    public static boolean codiceComuneEsiste(Comune[] listaComuni,CodiceFiscale cf)
+    public static boolean codiceComuneEsiste(ArrayList<Comune> listaComuni,CodiceFiscale cf)
     {
-        for (int i = 0; i < listaComuni.length; i++) {
-            if(listaComuni[i].getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11,15)))
+        for (int i = 0; i < listaComuni.size(); i++) {
+            if(listaComuni.get(i).getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11,15)))
             {
                 return true;
             }
         }
         return false;
     }
-
-
-
-
-
-
-
 
 }

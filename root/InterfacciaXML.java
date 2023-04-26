@@ -9,6 +9,8 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import UnibsLib.AnsiColors;
 
 public final class InterfacciaXML
@@ -53,7 +55,7 @@ public final class InterfacciaXML
      * @param listaPersone
      * @throws XMLStreamException
      */
-    public static void leggiPersone(Persona[] listaPersone) throws XMLStreamException {
+    public static void leggiPersone(ArrayList<Persona> listaPersone) throws XMLStreamException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_PERSONE);
         int id=0;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -64,7 +66,7 @@ public final class InterfacciaXML
                         case Costanti.TAG_PERSONA:
                         {
                             id = Integer.parseInt(xmlr.getAttributeValue(0)); //id attributo è la posizione nell array listaPersone
-                            listaPersone[id] = new Persona(); //creare la persona
+                            listaPersone.add(new Persona()); //creare la persona
                         }
                         break;
                         case Costanti.TAG_NOME:
@@ -73,7 +75,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaPersone[id].setNome(xmlr.getText());
+                                listaPersone.get(id).setNome(xmlr.getText());
                             }
 
                             break;
@@ -84,7 +86,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaPersone[id].setCognome(xmlr.getText());
+                                listaPersone.get(id).setCognome(xmlr.getText());
                             }
 
                             break;
@@ -95,7 +97,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaPersone[id].setSesso(xmlr.getText().charAt(0));
+                                listaPersone.get(id).setSesso(xmlr.getText().charAt(0));
                             }
 
                             break;
@@ -106,7 +108,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaPersone[id].setLuogo(xmlr.getText());
+                                listaPersone.get(id).setLuogo(xmlr.getText());
                             }
 
                             break;
@@ -117,7 +119,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaPersone[id].setDataDiNascita(LocalDate.parse(xmlr.getText()));
+                                listaPersone.get(id).setDataDiNascita(LocalDate.parse(xmlr.getText()));
                             }
 
                             break;
@@ -139,7 +141,7 @@ public final class InterfacciaXML
      * @param listaComuni
      * @throws XMLStreamException
      */
-    public static void leggiComuni(Comune[] listaComuni) throws XMLStreamException {
+    public static void leggiComuni(ArrayList<Comune> listaComuni) throws XMLStreamException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_COMUNI);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -150,7 +152,7 @@ public final class InterfacciaXML
                         case Costanti.TAG_COMUNE:
                         {
                             id++;
-                            listaComuni[id] = new Comune();
+                            listaComuni.add(new Comune());
                         }
                         break;
                         case Costanti.TAG_NOME:
@@ -159,7 +161,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaComuni[id].setNomeComune(xmlr.getText());
+                                listaComuni.get(id).setNomeComune(xmlr.getText());
                             }
 
                             break;
@@ -170,7 +172,7 @@ public final class InterfacciaXML
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaComuni[id].setCodiceComune(xmlr.getText());
+                                listaComuni.get(id).setCodiceComune(xmlr.getText());
                             }
 
                             break;
@@ -192,7 +194,7 @@ public final class InterfacciaXML
      * @param listaCF
      * @throws XMLStreamException
      */
-    public static void leggiCF(CodiceFiscale[] listaCF) throws XMLStreamException {
+    public static void leggiCF(ArrayList<CodiceFiscale> listaCF) throws XMLStreamException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_CF);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -203,12 +205,12 @@ public final class InterfacciaXML
                         case Costanti.TAG_CODICE:
                         {
                             id++;
-                            listaCF[id] = new CodiceFiscale();
+                            listaCF.add(new CodiceFiscale());
                             while(xmlr.hasNext() && xmlr.getEventType() != XMLStreamConstants.CHARACTERS)
                                 xmlr.next();
                             if (xmlr.getText().trim().length() > 0) // controlla se il testo non contiene solo spazi
                             {
-                                listaCF[id].setNome(xmlr.getText());
+                                listaCF.get(id).setNome(xmlr.getText());
                             }
                         }
                         break;
@@ -230,34 +232,34 @@ public final class InterfacciaXML
      * @param listaPersone
      * @param listaCF
      */
-    public static void scriviPersone(Persona[] listaPersone, CodiceFiscale[] listaCF)
+    public static void scriviPersone(ArrayList<Persona> listaPersone, ArrayList<CodiceFiscale> listaCF)
     {
 
         inizializzaXMLScrittura(Costanti.NOME_FILE_OUTPUT_XML);
         try { // blocco try per raccogliere eccezioni
             xmlw.writeStartElement(Costanti.TAG_OUTPUT); // scrittura del tag radice <programmaArnaldo>
             xmlw.writeStartElement(Costanti.TAG_PERSONE);
-            xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(listaPersone.length));
-            for (int i = 0; i < listaPersone.length; i++) {
+            xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(listaPersone.size()));
+            for (int i = 0; i < listaPersone.size(); i++) {
                 xmlw.writeStartElement(Costanti.TAG_PERSONA); // scrittura del tag autore...
                 xmlw.writeAttribute(Costanti.TAG_ID, Integer.toString(i)); // ...con attributo id...
                 xmlw.writeStartElement(Costanti.TAG_NOME);
-                xmlw.writeCharacters(listaPersone[i].getNome());
+                xmlw.writeCharacters(listaPersone.get(i).getNome());
                 xmlw.writeEndElement();
                 xmlw.writeStartElement(Costanti.TAG_COGNOME);
-                xmlw.writeCharacters(listaPersone[i].getCognome());
+                xmlw.writeCharacters(listaPersone.get(i).getCognome());
                 xmlw.writeEndElement();
                 xmlw.writeStartElement(Costanti.TAG_SESSO);
-                xmlw.writeCharacters(String.valueOf(listaPersone[i].getSesso()));
+                xmlw.writeCharacters(String.valueOf(listaPersone.get(i).getSesso()));
                 xmlw.writeEndElement();
                 xmlw.writeStartElement(Costanti.TAG_COMUNE_NASCITA);
-                xmlw.writeCharacters(listaPersone[i].getLuogo());
+                xmlw.writeCharacters(listaPersone.get(i).getLuogo());
                 xmlw.writeEndElement();
                 xmlw.writeStartElement(Costanti.TAG_DATA_NASCITA);
-                xmlw.writeCharacters(listaPersone[i].getDataDiNascita().toString());
+                xmlw.writeCharacters(listaPersone.get(i).getDataDiNascita().toString());
                 xmlw.writeEndElement();
                 xmlw.writeStartElement(Costanti.TAG_CF);
-                xmlw.writeCharacters(listaPersone[i].getCodiceFiscale());
+                xmlw.writeCharacters(listaPersone.get(i).getCodiceFiscale());
                 xmlw.writeEndElement();
                 xmlw.writeEndElement();
 
@@ -268,11 +270,11 @@ public final class InterfacciaXML
             xmlw.writeStartElement(Costanti.TAG_INVALIDI);
 
             xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(getNumeroInvalidi(listaCF)));
-            for (int i = 0; i < listaCF.length; i++) {
-                if(listaCF[i].getValiditaCF().equals(ValiditaCF.INVALIDO))
+            for (int i = 0; i < listaCF.size(); i++) {
+                if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.INVALIDO))
                 {
                     xmlw.writeStartElement(Costanti.TAG_CODICE);
-                    xmlw.writeCharacters(listaCF[i].getNome());
+                    xmlw.writeCharacters(listaCF.get(i).getNome());
                     xmlw.writeEndElement();
                 }
             }
@@ -281,11 +283,11 @@ public final class InterfacciaXML
             xmlw.writeStartElement(Costanti.TAG_SPAIATI);
 
             xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(getNumeroSpaiati(listaCF)));
-            for (int i = 0; i < listaCF.length; i++) {
-                if(listaCF[i].getValiditaCF().equals(ValiditaCF.SPAIATO))
+            for (int i = 0; i < listaCF.size(); i++) {
+                if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.SPAIATO))
                 {
                     xmlw.writeStartElement(Costanti.TAG_CODICE);
-                    xmlw.writeCharacters(listaCF[i].getNome());
+                    xmlw.writeCharacters(listaCF.get(i).getNome());
                     xmlw.writeEndElement();
                 }
             }
@@ -309,11 +311,11 @@ public final class InterfacciaXML
      * @param listaCF
      * @return
      */
-    private static int getNumeroSpaiati(CodiceFiscale[] listaCF)
+    private static int getNumeroSpaiati(ArrayList<CodiceFiscale> listaCF)
     {
         int count = 0;
-        for (int i = 0; i < listaCF.length; i++) {
-            if(listaCF[i].getValiditaCF().equals(ValiditaCF.SPAIATO))
+        for (int i = 0; i < listaCF.size(); i++) {
+            if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.SPAIATO))
             {
                 count++;
             }
@@ -326,11 +328,11 @@ public final class InterfacciaXML
      * @param listaCF
      * @return
      */
-    private static int getNumeroInvalidi(CodiceFiscale[] listaCF)
+    private static int getNumeroInvalidi(ArrayList<CodiceFiscale> listaCF)
     {
         int count = 0;
-        for (int i = 0; i < listaCF.length; i++) {
-            if(listaCF[i].getValiditaCF().equals(ValiditaCF.INVALIDO))
+        for (int i = 0; i < listaCF.size(); i++) {
+            if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.INVALIDO))
             {
                 count++;
             }
@@ -344,10 +346,5 @@ public final class InterfacciaXML
      * @return numero degli elementi che vengono indicati come primo attributo in un file xml
      * @throws XMLStreamException
      */
-    public static int leggiNumeroElementi() throws XMLStreamException
-    {
-        xmlr.next();
-        return Integer.parseInt(xmlr.getAttributeValue(0));
-    }
 
 }
