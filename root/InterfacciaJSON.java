@@ -15,28 +15,29 @@ public final class InterfacciaJSON {
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<PersonaJSON>>>(){}.getType();
-        HashMap<String,ArrayList<PersonaJSON>> personeMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<PersonaJSON>>(){}.getType();
+        ArrayList<PersonaJSON> personeMap = gson.fromJson(fileReader, userType);
 
         fileReader.close();
 
-        return personeMap.get("persone").size();
+        return personeMap.size();
     }
     public static void leggiPersone(Persona[] listaPersona) throws IOException {
         String filePath = "TestFile/InputPersone.json";
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<PersonaJSON>>>(){}.getType();
-        HashMap<String,ArrayList<PersonaJSON>> personeMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<PersonaJSON>>(){}.getType();
+        ArrayList<PersonaJSON> personeMap = gson.fromJson(fileReader, userType);
 
-        for (int i = 0; i < personeMap.get("persone").size(); i++) {
+        for (int i = 0; i < personeMap.size(); i++) {
+            System.out.println(personeMap.get(i).getCognome());
             listaPersona[i]= new Persona();
-            listaPersona[i].setNome(personeMap.get("persone").get(i).getNome());
-            listaPersona[i].setCognome(personeMap.get("persone").get(i).getCognome());
-            listaPersona[i].setSesso(personeMap.get("persone").get(i).getSesso());
-            listaPersona[i].setLuogo(personeMap.get("persone").get(i).getLuogo());
-            listaPersona[i].setDataDiNascita(LocalDate.parse(personeMap.get("persone").get(i).getData()));
+            listaPersona[i].setNome(personeMap.get(i).getNome());
+            listaPersona[i].setCognome(personeMap.get(i).getCognome());
+            listaPersona[i].setSesso(personeMap.get(i).getSesso());
+            listaPersona[i].setLuogo(personeMap.get(i).getLuogo());
+            listaPersona[i].setDataDiNascita(LocalDate.parse(personeMap.get(i).getData()));
         }
 
         fileReader.close();
@@ -47,13 +48,13 @@ public final class InterfacciaJSON {
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<Comune>>>(){}.getType();
-        HashMap<String,ArrayList<Comune>> comuniMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<Comune>>(){}.getType();
+        ArrayList<Comune> comuniMap = gson.fromJson(fileReader, userType);
 
-        for (int i = 0; i < comuniMap.get("comuni").size(); i++) {
+        for (int i = 0; i < comuniMap.size(); i++) {
             listaComuni[i]= new Comune();
-            listaComuni[i].setNomeComune(comuniMap.get("comuni").get(i).getNomeComune());
-            listaComuni[i].setCodiceComune(comuniMap.get("comuni").get(i).getCodiceComune());
+            listaComuni[i].setNomeComune(comuniMap.get(i).getNomeComune());
+            listaComuni[i].setCodiceComune(comuniMap.get(i).getCodiceComune());
         }
 
         fileReader.close();
@@ -64,12 +65,12 @@ public final class InterfacciaJSON {
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<Comune>>>(){}.getType();
-        HashMap<String,ArrayList<Comune>> comuniMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<Comune>>(){}.getType();
+        ArrayList<Comune> comuniMap = gson.fromJson(fileReader, userType);
 
         fileReader.close();
 
-        return comuniMap.get("comuni").size();
+        return comuniMap.size();
     }
 
 
@@ -78,12 +79,12 @@ public final class InterfacciaJSON {
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<String>>>(){}.getType();
-        HashMap<String,ArrayList<String>> cfMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<String>>(){}.getType();
+        ArrayList<String> cfMap = gson.fromJson(fileReader, userType);
 
         fileReader.close();
 
-        return cfMap.get("codici").size();
+        return cfMap.size();
     }
 
     public static void leggiCF(CodiceFiscale[] listaCF) throws IOException {
@@ -91,12 +92,12 @@ public final class InterfacciaJSON {
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
-        Type userType = new TypeToken<HashMap<String,ArrayList<String>>>(){}.getType();
-        HashMap<String,ArrayList<String>> cfMap = gson.fromJson(fileReader, userType);
+        Type userType = new TypeToken<ArrayList<String>>(){}.getType();
+        ArrayList<String> cfMap = gson.fromJson(fileReader, userType);
 
-        for (int i = 0; i < cfMap.get("codici").size(); i++) {
+        for (int i = 0; i < cfMap.size(); i++) {
             listaCF[i]= new CodiceFiscale();
-            listaCF[i].setNome(cfMap.get("codici").get(i));
+            listaCF[i].setNome(cfMap.get(i));
         }
 
         fileReader.close();
