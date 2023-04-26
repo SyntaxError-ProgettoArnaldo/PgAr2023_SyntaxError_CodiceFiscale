@@ -2,6 +2,8 @@ package root;
 
 import javax.xml.stream.XMLStreamException;
 
+import java.io.IOException;
+
 import static root.InterfacciaXML.*;
 
 
@@ -40,8 +42,7 @@ public class Main
         return InterfacciaXML.leggiNumeroElementi();
     }
 
-    public static void main(String[] args) throws XMLStreamException
-    {
+    public static void main(String[] args) throws XMLStreamException, IOException {
 
         Persona[] listaPersone = new Persona[getNumElementiPersona()];
         leggiPersone(listaPersone);
@@ -57,6 +58,12 @@ public class Main
         validazione(listaCF,listaComuni);
         scriviPersone(listaPersone,listaCF);
 
+        Persona[] listaPersone2 = new Persona[InterfacciaJSON.contaPersone()];
+        System.out.println(listaPersone2.length);
+        InterfacciaJSON.leggiPersone(listaPersone2);
+        for (int i = 0; i < listaPersone2.length; i++) {
+            System.out.println(listaPersone2[i].toString());
+        }
     }
 
 }
