@@ -56,14 +56,24 @@ public class Main
 
         creaControllaCF(listaPersone,listaComuni,listaCF);
         validazione(listaCF,listaComuni);
-        scriviPersone(listaPersone,listaCF);
+        InterfacciaXML.scriviPersone(listaPersone,listaCF);
 
         Persona[] listaPersone2 = new Persona[InterfacciaJSON.contaPersone()];
         System.out.println(listaPersone2.length);
         InterfacciaJSON.leggiPersone(listaPersone2);
-        for (int i = 0; i < listaPersone2.length; i++) {
-            System.out.println(listaPersone2[i].toString());
-        }
+
+        Comune[] listaComuni2 = new Comune[InterfacciaJSON.contaComuni()];
+        System.out.println(listaComuni2.length);
+        InterfacciaJSON.leggiComuni(listaComuni2);
+
+        CodiceFiscale[] listaCF2 = new CodiceFiscale[InterfacciaJSON.contaCF()];
+        System.out.println(listaCF.length);
+        InterfacciaJSON.leggiCF(listaCF2);
+
+        creaControllaCF(listaPersone2,listaComuni2,listaCF2);
+        validazione(listaCF2,listaComuni2);
+
+        InterfacciaJSON.scriviPersone(listaPersone2,listaCF2);
     }
 
 }

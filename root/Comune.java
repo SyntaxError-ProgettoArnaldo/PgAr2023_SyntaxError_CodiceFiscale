@@ -1,8 +1,12 @@
 package root;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Comune
 {
+    @SerializedName("nome")
     private String nomeComune;
+    @SerializedName("codice")
     private String codiceComune;
 
     public Comune() {}

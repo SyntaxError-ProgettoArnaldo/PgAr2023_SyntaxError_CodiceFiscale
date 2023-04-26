@@ -1,5 +1,7 @@
 package root;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CodiceFiscale
 {
     private String nome;
