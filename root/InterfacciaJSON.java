@@ -1,5 +1,6 @@
 package root;
 
+import UnibsLib.AnsiColors;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,7 +12,7 @@ import java.util.*;
 public final class InterfacciaJSON {
 
     public static int contaPersone() throws IOException {
-        String filePath = "TestFile/InputPersone.json";
+        String filePath = Costanti.PATH_INPUT_PERSONE_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -23,7 +24,7 @@ public final class InterfacciaJSON {
         return personeMap.size();
     }
     public static void leggiPersone(Persona[] listaPersona) throws IOException {
-        String filePath = "TestFile/InputPersone.json";
+        String filePath = Costanti.PATH_INPUT_PERSONE_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -31,7 +32,6 @@ public final class InterfacciaJSON {
         ArrayList<PersonaJSON> personeMap = gson.fromJson(fileReader, userType);
 
         for (int i = 0; i < personeMap.size(); i++) {
-            System.out.println(personeMap.get(i).getCognome());
             listaPersona[i]= new Persona();
             listaPersona[i].setNome(personeMap.get(i).getNome());
             listaPersona[i].setCognome(personeMap.get(i).getCognome());
@@ -41,10 +41,12 @@ public final class InterfacciaJSON {
         }
 
         fileReader.close();
+        System.out.println(AnsiColors.GREEN+"Sono state acquisite "+AnsiColors.RED+personeMap.size()+AnsiColors.GREEN+" persone correttamente"+AnsiColors.RESET);
+
     }
 
     public static void leggiComuni(Comune[] listaComuni) throws IOException {
-        String filePath = "TestFile/Comuni.json";
+        String filePath = Costanti.PATH_INPUT_COMUNI_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -58,10 +60,12 @@ public final class InterfacciaJSON {
         }
 
         fileReader.close();
+        System.out.println(AnsiColors.GREEN+"Sono stati acquisiti "+AnsiColors.RED+comuniMap.size()+AnsiColors.GREEN+" comini correttamente"+AnsiColors.RESET);
+
     }
 
     public static int contaComuni() throws IOException {
-        String filePath = "TestFile/Comuni.json";
+        String filePath = Costanti.PATH_INPUT_COMUNI_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -75,7 +79,7 @@ public final class InterfacciaJSON {
 
 
     public static int contaCF() throws IOException {
-        String filePath = "TestFile/CodiciFiscali.json";
+        String filePath = Costanti.PATH_INPUT_CF_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -88,7 +92,7 @@ public final class InterfacciaJSON {
     }
 
     public static void leggiCF(CodiceFiscale[] listaCF) throws IOException {
-        String filePath = "TestFile/CodiciFiscali.json";
+        String filePath = Costanti.PATH_INPUT_CF_JSON;
         FileReader fileReader = new FileReader(new File(filePath));
         Gson gson = new Gson();
 
@@ -101,10 +105,12 @@ public final class InterfacciaJSON {
         }
 
         fileReader.close();
+        System.out.println(AnsiColors.GREEN+"Sono stati acquisiti "+AnsiColors.RED+cfMap.size()+AnsiColors.GREEN+" codici fiscali correttamente"+AnsiColors.RESET);
+
     }
 
     public static void scriviPersone(Persona[] listaPersone, CodiceFiscale[] listaCF) throws IOException {
-        String filePath = "codiciPersone.json";
+        String filePath = Costanti.NOME_FILE_OUTPUT_JSON;
         FileWriter fileWriter = new FileWriter(new File(filePath));
         Gson gson = new Gson();
 

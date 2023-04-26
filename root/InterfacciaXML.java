@@ -42,7 +42,8 @@ public final class InterfacciaXML
             xmlof = XMLOutputFactory.newInstance();
             xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filename), "utf-8"); xmlw.writeStartDocument("utf-8", "2.0");
         } catch (Exception e) {
-            System.out.println(Costanti.ERR_INIZ_WRITER); System.out.println(e.getMessage());
+            System.out.println(Costanti.ERR_INIZ_WRITER);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -53,8 +54,8 @@ public final class InterfacciaXML
      * @throws XMLStreamException
      */
     public static void leggiPersone(Persona[] listaPersone) throws XMLStreamException {
+        inizializzaXMLLettura(Costanti.PATH_INPUT_PERSONE);
         int id=0;
-        System.out.println(AnsiColors.GREEN+Costanti.MESS_INIZIO_LETTURA+AnsiColors.RESET);
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
             switch (xmlr.getEventType()) { // switch sul tipo di evento
                 case XMLStreamConstants.START_ELEMENT:
@@ -139,6 +140,7 @@ public final class InterfacciaXML
      * @throws XMLStreamException
      */
     public static void leggiComuni(Comune[] listaComuni) throws XMLStreamException {
+        inizializzaXMLLettura(Costanti.PATH_INPUT_COMUNI);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
             switch (xmlr.getEventType()) { // switch sul tipo di evento
@@ -191,6 +193,7 @@ public final class InterfacciaXML
      * @throws XMLStreamException
      */
     public static void leggiCF(CodiceFiscale[] listaCF) throws XMLStreamException {
+        inizializzaXMLLettura(Costanti.PATH_INPUT_CF);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
             switch (xmlr.getEventType()) { // switch sul tipo di evento
@@ -229,7 +232,8 @@ public final class InterfacciaXML
      */
     public static void scriviPersone(Persona[] listaPersone, CodiceFiscale[] listaCF)
     {
-        inizializzaXMLScrittura(Costanti.NOME_FILE_OUTPUT);
+
+        inizializzaXMLScrittura(Costanti.NOME_FILE_OUTPUT_XML);
         try { // blocco try per raccogliere eccezioni
             xmlw.writeStartElement(Costanti.TAG_OUTPUT); // scrittura del tag radice <programmaArnaldo>
             xmlw.writeStartElement(Costanti.TAG_PERSONE);

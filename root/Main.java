@@ -1,10 +1,11 @@
 package root;
 
+import UnibsLib.AnsiColors;
+
 import javax.xml.stream.XMLStreamException;
 
 import java.io.IOException;
 
-import static root.InterfacciaXML.*;
 
 
 public class Main
@@ -42,35 +43,56 @@ public class Main
         return InterfacciaXML.leggiNumeroElementi();
     }
 
-    public static void main(String[] args) throws XMLStreamException, IOException {
+    public static void inputXML(Persona[] listaPersone, Comune[] listaComuni, CodiceFiscale[] listaCF) throws XMLStreamException {
+        System.out.println(AnsiColors.BLUE+Costanti.MESS_INIZIO_LETTURA_XML +AnsiColors.RESET);
+        InterfacciaXML.leggiPersone(listaPersone);
+        InterfacciaXML.leggiComuni(listaComuni);
+        InterfacciaXML.leggiCF(listaCF);
+    }
+    public static void inputJSON(Persona[] listaPersone, Comune[] listaComuni, CodiceFiscale[] listaCF) throws XMLStreamException, IOException {
+        System.out.println(AnsiColors.BLUE+Costanti.MESS_INIZIO_LETTURA_JSON +AnsiColors.RESET);
+        InterfacciaJSON.leggiPersone(listaPersone);
+        InterfacciaJSON.leggiComuni(listaComuni);
+        InterfacciaJSON.leggiCF(listaCF);
+    }
 
-        Persona[] listaPersone = new Persona[getNumElementiPersona()];
-        leggiPersone(listaPersone);
-
-        Comune[] listaComuni = new Comune[getNumElementiComuni()];
-        leggiComuni(listaComuni);
-
-        CodiceFiscale[] listaCF = new CodiceFiscale[getNumElementiCF()];
-        leggiCF(listaCF);
-
-
+    public static void outputXML(Persona[] listaPersone, Comune[] listaComuni, CodiceFiscale[] listaCF)
+    {
         creaControllaCF(listaPersone,listaComuni,listaCF);
         validazione(listaCF,listaComuni);
         InterfacciaXML.scriviPersone(listaPersone,listaCF);
+        System.out.println(AnsiColors.BLUE+Costanti.MESS_FINE_SCRITTURA_XML+AnsiColors.RESET);
 
+    }
+
+    public static void outputJSON(Persona[] listaPersone, Comune[] listaComuni, CodiceFiscale[] listaCF)
+    {
+        creaControllaCF(listaPersone,listaComuni,listaCF);
+        validazione(listaCF,listaComuni);
+        InterfacciaXML.scriviPersone(listaPersone,listaCF);
+        System.out.println(AnsiColors.BLUE+Costanti.MESS_FINE_SCRITTURA_JSON+AnsiColors.RESET);
+    }
+
+    public static void main(String[] args) throws XMLStreamException, IOException {
+
+        //DATI XML
+        Persona[] listaPersone = new Persona[getNumElementiPersona()];
+        Comune[] listaComuni = new Comune[getNumElementiComuni()];
+        CodiceFiscale[] listaCF = new CodiceFiscale[getNumElementiCF()];
+
+        //DATI JSON
         Persona[] listaPersone2 = new Persona[InterfacciaJSON.contaPersone()];
-        InterfacciaJSON.leggiPersone(listaPersone2);
-
         Comune[] listaComuni2 = new Comune[InterfacciaJSON.contaComuni()];
-        InterfacciaJSON.leggiComuni(listaComuni2);
-
         CodiceFiscale[] listaCF2 = new CodiceFiscale[InterfacciaJSON.contaCF()];
-        InterfacciaJSON.leggiCF(listaCF2);
 
-        creaControllaCF(listaPersone2,listaComuni2,listaCF2);
-        validazione(listaCF2,listaComuni2);
+        //INPUT
+        inputXML(listaPersone,listaComuni,listaCF);
+        inputJSON(listaPersone2,listaComuni2,listaCF2);
 
-        InterfacciaJSON.scriviPersone(listaPersone2,listaCF2);
+        //OUTPUT
+        outputXML(listaPersone,listaComuni,listaCF);
+        outputJSON(listaPersone2,listaComuni2,listaCF2);
+
     }
 
 }

@@ -6,14 +6,22 @@ public class Costanti
     public static final String TEST_PATH_INPUT_PERSONE = "Prova/InputPersone.xml";
     public static final String TEST_PATH_INPUT_CF = "Prova/CodiciFiscali.xml";
     public static final String TEST_PATH_INPUT_COMUNI = "Prova/Comuni.xml";
-    //PATH
+    //PATH XML
     public static final String PATH_INPUT_PERSONE = "TestFile/InputPersone.xml";
     public static final String PATH_INPUT_CF = "TestFile/CodiciFiscali.xml";
     public static final String PATH_INPUT_COMUNI = "TestFile/Comuni.xml";
+    //PATH JSON
+    public static final String PATH_INPUT_PERSONE_JSON = "TestFile/InputPersone.json";
+    public static final String PATH_INPUT_CF_JSON = "TestFile/CodiciFiscali.json";
+    public static final String PATH_INPUT_COMUNI_JSON = "TestFile/Comuni.json";
     //STRINGHE
-    public static final String MESS_INIZIO_LETTURA = "Inizio fase di lettura...";
+    public static final String MESS_INIZIO_LETTURA_XML = "Inizio fase di lettura dei file xml...";
+    public static final String MESS_INIZIO_LETTURA_JSON = "Inizio fase di lettura dei file json...";
+    public static final String MESS_FINE_SCRITTURA_XML = "File di output xml creato correttamente";
+    public static final String MESS_FINE_SCRITTURA_JSON = "File di output json creato correttamente";
     public static final String CHAR_CONTROLLO_DEFAULT = "A";
-    public static final String NOME_FILE_OUTPUT = "codiciPersone.xml";
+    public static final String NOME_FILE_OUTPUT_XML = "codiciPersone.xml";
+    public static final String NOME_FILE_OUTPUT_JSON = "codiciPersone.json";
     public static final String ERR_SCRITTURA = "Errore nella scrittura del file";
     public static final String ERR_INIZ_WRITER = "Errore nell'inizializzazione del writer:";
     public static final String ERR_INIZ_READER = "Errore nell'inizializzazione del reader:";
