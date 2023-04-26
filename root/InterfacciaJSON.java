@@ -89,19 +89,15 @@ public final class InterfacciaJSON {
         personaMap.put("persona",listaMapPersone);
 
         HashMap<String,ArrayList<String>> invalidiMap = new HashMap<>();
-        ArrayList<HashMap<String,String>> cfInvalidi = new ArrayList<>();
-        HashMap<String,String> datiInvalidi = new HashMap<>();
+        ArrayList<String> cfInvalidi = new ArrayList<>();
 
         for (int i = 0; i < listaCF.size(); i++) {
             if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.INVALIDO))  {
-                datiInvalidi.put("",listaCF.get(i).getNome());
-                cfInvalidi.add(new HashMap<>(datiInvalidi));
+                cfInvalidi.add(listaCF.get(i).getNome());
             }
         }
 
-
-        personaMap.put("invalidi",cfInvalidi);
-
+        invalidiMap.put("invalidi",cfInvalidi);
 
         HashMap<String,ArrayList<String>> spaiatiMap = new HashMap<>();
         ArrayList<String> cfSpaiati = new ArrayList<>();
@@ -114,7 +110,9 @@ public final class InterfacciaJSON {
 
         spaiatiMap.put("spaiati",cfSpaiati);
 
+
         gson.toJson(personaMap, fileWriter);
+        gson.toJson(invalidiMap, fileWriter);
         gson.toJson(spaiatiMap,fileWriter);
 
         fileWriter.close();
