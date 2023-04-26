@@ -71,8 +71,6 @@ public final class InterfacciaJSON {
         FileWriter fileWriter = new FileWriter(new File(filePath));
         Gson gson = new Gson();
 
-        HashMap<String,ArrayList<HashMap<String,String>>> personaMap = new HashMap<>();
-
         HashMap<String,String> datiPersone= new HashMap<>();
         ArrayList<HashMap<String,String>> listaMapPersone= new ArrayList<>();
 
@@ -86,9 +84,6 @@ public final class InterfacciaJSON {
             listaMapPersone.add(new HashMap<>(datiPersone));
         }
 
-        personaMap.put("persona",listaMapPersone);
-
-        HashMap<String,ArrayList<String>> invalidiMap = new HashMap<>();
         ArrayList<String> cfInvalidi = new ArrayList<>();
 
         for (int i = 0; i < listaCF.size(); i++) {
@@ -97,9 +92,6 @@ public final class InterfacciaJSON {
             }
         }
 
-        invalidiMap.put("invalidi",cfInvalidi);
-
-        HashMap<String,ArrayList<String>> spaiatiMap = new HashMap<>();
         ArrayList<String> cfSpaiati = new ArrayList<>();
 
         for (int i = 0; i < listaCF.size(); i++) {
@@ -108,12 +100,10 @@ public final class InterfacciaJSON {
             }
         }
 
-        spaiatiMap.put("spaiati",cfSpaiati);
-
         Map<String, Object> map = new HashMap<>();
         map.put("persona",listaMapPersone);
-        map.put("invalidi", invalidiMap);
-        map.put("spaiati", spaiatiMap);
+        map.put("invalidi", cfInvalidi);
+        map.put("spaiati", cfSpaiati);
         gson.toJson(map,fileWriter);
 
         fileWriter.close();
