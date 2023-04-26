@@ -52,15 +52,14 @@ public final class GestioneCF
     /**
      * Genera il codice relativo al comune di nascita della persona
      * @param persona Persona di cui si vuole generare il codice
-     * @param listaComuni
+     * @param listaComuni lista dei comuni
      * @return il codice
      */
     private static String creaCodiceComune(Persona persona, ArrayList<Comune> listaComuni)
     {
-        for (int i = 0; i < listaComuni.size(); i++) {
-            if(persona.getLuogo().equalsIgnoreCase(listaComuni.get(i).getNomeComune()))
-            {
-                return listaComuni.get(i).getCodiceComune();
+        for (Comune comune : listaComuni) {
+            if (persona.getLuogo().equalsIgnoreCase(comune.getNomeComune())) {
+                return comune.getCodiceComune();
             }
         }
         return null;
@@ -89,7 +88,7 @@ public final class GestioneCF
     /**
      * Genera il codice relativo al mese di nascita
      * @param persona Persona di cui si vuole generare il codice
-     * @return
+     * @return il codice
      */
     private static char creaCodiceMese(Persona persona)
     {
@@ -99,7 +98,7 @@ public final class GestioneCF
 
     /**
      * @param s La stringa iniziale
-     * @param n Il numero di ultii caratteri che si vuole ottenere
+     * @param n Il numero di ultimi caratteri che si vuole ottenere
      * @return gli ultimi caratteri inseriti in una stringa
      */
     public static String prendiUltimiCaratteri(String s, int n)
@@ -114,7 +113,7 @@ public final class GestioneCF
     /**
      * Genera il codice relativo all anno di nascita
      * @param persona Persona di cui si vuole generare il codice
-     * @return
+     * @return il codice
      */
     private static String creaCodiceAnno(Persona persona) {
         return prendiUltimiCaratteri(String.valueOf(persona.getDataDiNascita().getYear()),2);
@@ -242,20 +241,19 @@ public final class GestioneCF
     }
 
     /**
-     * Controlla se un
-     * @param codiciFiscali
-     * @param cf
-     * @return
+     * Controlla se un il codice fiscale cf è presente nella lista
+     * @param codiciFiscali lista dei codici fiscali
+     * @param cf codice fiscale
+     * @return il codice fiscale
      */
     public static String cercaCF(ArrayList<CodiceFiscale> codiciFiscali, String cf)
     {
         boolean cfTrovato = false;
-        for (int i = 0; i < codiciFiscali.size(); i++) {
-            if(codiciFiscali.get(i).getNome().substring(0,codiciFiscali.get(i).getNome().length()-Costanti.N_CHAR_DA_NON_CONTROLLARE).equalsIgnoreCase(cf.substring(0,cf.length()-Costanti.N_CHAR_DA_NON_CONTROLLARE)))
-            {
-                codiciFiscali.get(i).setValiditaCF(ValiditaCF.VALIDO);
-                cfTrovato=true;
-                cf= codiciFiscali.get(i).getNome();
+        for (CodiceFiscale codiceFiscale : codiciFiscali) {
+            if (codiceFiscale.getNome().substring(0, codiceFiscale.getNome().length() - Costanti.N_CHAR_DA_NON_CONTROLLARE).equalsIgnoreCase(cf.substring(0, cf.length() - Costanti.N_CHAR_DA_NON_CONTROLLARE))) {
+                codiceFiscale.setValiditaCF(ValiditaCF.VALIDO);
+                cfTrovato = true;
+                cf = codiceFiscale.getNome();
 
             }
         }
@@ -270,8 +268,8 @@ public final class GestioneCF
     /**
      * Controlla se un codice fiscale è valido oppure no
      * Nel caso non lo sia verra asseganto nell oggetto attributo validitaCF su INVALIDO
-     * @param cf
-     * @param listaComuni
+     * @param cf codice fiscale
+     * @param listaComuni lista dei comuni
      */
     public static void validazioneCF(CodiceFiscale cf, ArrayList<Comune> listaComuni)
     {
@@ -337,15 +335,14 @@ public final class GestioneCF
 
     /**
      * Controlla se il codice comune esiste nella lista comuni
-     * @param listaComuni
-     * @param cf
+     * @param listaComuni lista dei comuni
+     * @param cf codice fiscale
      * @return true/false se è stato trovato
      */
     public static boolean codiceComuneEsiste(ArrayList<Comune> listaComuni,CodiceFiscale cf)
     {
-        for (int i = 0; i < listaComuni.size(); i++) {
-            if(listaComuni.get(i).getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11,15)))
-            {
+        for (Comune comune : listaComuni) {
+            if (comune.getCodiceComune().equalsIgnoreCase(cf.getNome().substring(11, 15))) {
                 return true;
             }
         }

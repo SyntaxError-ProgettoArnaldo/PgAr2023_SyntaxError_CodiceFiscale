@@ -4,38 +4,43 @@ import UnibsLib.AnsiColors;
 
 import javax.xml.stream.XMLStreamException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class Main
 {
+    /**
+     * Crea il codice fiscale per ogni persona e lo assegna
+     */
     public static void creaControllaCF(ArrayList<Persona> listaPersone, ArrayList<Comune> listaComuni, ArrayList<CodiceFiscale> listaCF)
     {
-        for (int i = 0; i < listaPersone.size(); i++) {
-            GestioneCF.creaCF(listaPersone.get(i),listaComuni);
-            listaPersone.get(i).setCodiceFiscale(GestioneCF.cercaCF(listaCF,listaPersone.get(i).getCodiceFiscale()));
-            //System.out.println(listaPersone[i].toString());
-            //System.out.println(listaPersone[i].getCodiceFiscale());
+        for (Persona persona : listaPersone) {
+            GestioneCF.creaCF(persona, listaComuni);
+            persona.setCodiceFiscale(GestioneCF.cercaCF(listaCF, persona.getCodiceFiscale()));
         }
     }
 
+    /**
+     * Valida codice fiscale
+     */
     public static void validazione(ArrayList<CodiceFiscale> listaCF, ArrayList<Comune> listaComuni)
     {
-        for (int i = 0; i < listaCF.size(); i++)
-        {
-            GestioneCF.validazioneCF(listaCF.get(i),listaComuni);
+        for (CodiceFiscale codiceFiscale : listaCF) {
+            GestioneCF.validazioneCF(codiceFiscale, listaComuni);
             //System.out.println(listaCF[i].toString());
         }
     }
 
-    public static void inputXML(ArrayList<Persona> listaPersone, ArrayList<Comune> listaComuni, ArrayList<CodiceFiscale> listaCF) throws XMLStreamException {
+    public static void inputXML(ArrayList<Persona> listaPersone, ArrayList<Comune> listaComuni, ArrayList<CodiceFiscale> listaCF) throws XMLStreamException, FileNotFoundException {
         System.out.println(AnsiColors.BLUE+Costanti.MESS_INIZIO_LETTURA_XML +AnsiColors.RESET);
         InterfacciaXML.leggiPersone(listaPersone);
         InterfacciaXML.leggiComuni(listaComuni);
         InterfacciaXML.leggiCF(listaCF);
+
     }
-    public static void inputJSON(ArrayList<Persona> listaPersone, ArrayList<Comune> listaComuni, ArrayList<CodiceFiscale> listaCF) throws XMLStreamException, IOException {
+    public static void inputJSON(ArrayList<Persona> listaPersone, ArrayList<Comune> listaComuni, ArrayList<CodiceFiscale> listaCF) throws IOException {
         System.out.println(AnsiColors.BLUE+Costanti.MESS_INIZIO_LETTURA_JSON +AnsiColors.RESET);
         InterfacciaJSON.leggiPersone(listaPersone);
         InterfacciaJSON.leggiComuni(listaComuni);
@@ -58,7 +63,7 @@ public class Main
         System.out.println(AnsiColors.BLUE+Costanti.MESS_FINE_SCRITTURA_JSON+AnsiColors.RESET);
     }
 
-    public static void main(String[] args) throws XMLStreamException, IOException {
+    public static void main(String[] args){
 
         //DATI XML
         ArrayList<Persona> listaPersoneXML = new ArrayList<>();
@@ -71,12 +76,24 @@ public class Main
         ArrayList<CodiceFiscale> listaCFJSON = new ArrayList<>();
 
         //INPUT
-        inputXML(listaPersoneXML,listaComuniXML,listaCFXML);
-        inputJSON(listaPersoneJSON,listaComuniJSON,listaCFJSON);
+        try{
+            inputXML(listaPersoneXML,listaComuniXML,listaCFXML);
+            inputJSON(listaPersoneJSON,listaComuniJSON,listaCFJSON);
+        }catch (XMLStreamException | IOException exception)
+        {
+            System.out.println(AnsiColors.RED+Costanti.ERR_FILE_INPUT_NOT_FOUND+AnsiColors.RESET);
+            return;
+        }
 
         //OUTPUT
-        outputXML(listaPersoneXML,listaComuniXML,listaCFXML);
-        outputJSON(listaPersoneJSON,listaComuniJSON,listaCFJSON);
+        try{
+            outputXML(listaPersoneXML,listaComuniXML,listaCFXML);
+            outputJSON(listaPersoneJSON,listaComuniJSON,listaCFJSON);
+        }catch (IOException exception)
+        {
+            System.out.println(AnsiColors.RED+Costanti.ERR_OUTPUT+AnsiColors.RESET);
+        }
+
 
     }
 

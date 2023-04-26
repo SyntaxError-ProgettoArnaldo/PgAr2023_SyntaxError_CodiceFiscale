@@ -2,10 +2,6 @@ package root;
 
 public class Costanti
 {
-    //PATH TEST
-    public static final String TEST_PATH_INPUT_PERSONE = "Prova/InputPersone.xml";
-    public static final String TEST_PATH_INPUT_CF = "Prova/CodiciFiscali.xml";
-    public static final String TEST_PATH_INPUT_COMUNI = "Prova/Comuni.xml";
     //PATH XML
     public static final String PATH_INPUT_PERSONE = "TestFile/InputPersone.xml";
     public static final String PATH_INPUT_CF = "TestFile/CodiciFiscali.xml";
@@ -24,7 +20,8 @@ public class Costanti
     public static final String NOME_FILE_OUTPUT_JSON = "codiciPersone.json";
     public static final String ERR_SCRITTURA = "Errore nella scrittura del file";
     public static final String ERR_INIZ_WRITER = "Errore nell'inizializzazione del writer:";
-    public static final String ERR_INIZ_READER = "Errore nell'inizializzazione del reader:";
+    public static final String ERR_FILE_INPUT_NOT_FOUND = "File di input non presenti";
+    public static final String ERR_OUTPUT = "Errore nel file di output";
     public static final char SESSOF = 'F';
 
     //INTERI

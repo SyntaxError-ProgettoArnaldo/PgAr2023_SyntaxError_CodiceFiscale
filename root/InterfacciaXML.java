@@ -7,6 +7,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,17 +24,9 @@ public final class InterfacciaXML
     /**
      * @param filename path del file con cui inizializzare
      */
-    public static void inizializzaXMLLettura(String filename)
-    {
-
-        try {
-            xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader(filename, new FileInputStream(filename));
-        } catch (Exception e) {
-            System.out.println(Costanti.ERR_INIZ_READER);
-            System.out.println(e.getMessage());
-
-        }
+    public static void inizializzaXMLLettura(String filename) throws FileNotFoundException, XMLStreamException {
+        xmlif = XMLInputFactory.newInstance();
+        xmlr = xmlif.createXMLStreamReader(filename, new FileInputStream(filename));
     }
     /**
      * @param filename path del file con cui inizializzare
@@ -52,10 +45,8 @@ public final class InterfacciaXML
 
     /**
      * Legge il file xml e crea gli oggetti inserendoli nell array
-     * @param listaPersone
-     * @throws XMLStreamException
      */
-    public static void leggiPersone(ArrayList<Persona> listaPersone) throws XMLStreamException {
+    public static void leggiPersone(ArrayList<Persona> listaPersone) throws XMLStreamException, FileNotFoundException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_PERSONE);
         int id=0;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -138,10 +129,8 @@ public final class InterfacciaXML
 
     /**
      * Legge il file xml e crea gli oggetti inserendoli nell array
-     * @param listaComuni
-     * @throws XMLStreamException
      */
-    public static void leggiComuni(ArrayList<Comune> listaComuni) throws XMLStreamException {
+    public static void leggiComuni(ArrayList<Comune> listaComuni) throws XMLStreamException, FileNotFoundException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_COMUNI);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -191,10 +180,8 @@ public final class InterfacciaXML
     }
     /**
      * Legge il file xml e crea gli oggetti inserendoli nell array
-     * @param listaCF
-     * @throws XMLStreamException
      */
-    public static void leggiCF(ArrayList<CodiceFiscale> listaCF) throws XMLStreamException {
+    public static void leggiCF(ArrayList<CodiceFiscale> listaCF) throws XMLStreamException, FileNotFoundException {
         inizializzaXMLLettura(Costanti.PATH_INPUT_CF);
         int id=-1;
         while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
@@ -228,9 +215,7 @@ public final class InterfacciaXML
     }
 
     /**
-     * Scrive su un fil xml
-     * @param listaPersone
-     * @param listaCF
+     * Scrive su un file xml
      */
     public static void scriviPersone(ArrayList<Persona> listaPersone, ArrayList<CodiceFiscale> listaCF)
     {
@@ -270,11 +255,10 @@ public final class InterfacciaXML
             xmlw.writeStartElement(Costanti.TAG_INVALIDI);
 
             xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(getNumeroInvalidi(listaCF)));
-            for (int i = 0; i < listaCF.size(); i++) {
-                if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.INVALIDO))
-                {
+            for (CodiceFiscale codiceFiscale : listaCF) {
+                if (codiceFiscale.getValiditaCF().equals(ValiditaCF.INVALIDO)) {
                     xmlw.writeStartElement(Costanti.TAG_CODICE);
-                    xmlw.writeCharacters(listaCF.get(i).getNome());
+                    xmlw.writeCharacters(codiceFiscale.getNome());
                     xmlw.writeEndElement();
                 }
             }
@@ -283,11 +267,10 @@ public final class InterfacciaXML
             xmlw.writeStartElement(Costanti.TAG_SPAIATI);
 
             xmlw.writeAttribute(Costanti.ATT_NUMERO,String.valueOf(getNumeroSpaiati(listaCF)));
-            for (int i = 0; i < listaCF.size(); i++) {
-                if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.SPAIATO))
-                {
+            for (CodiceFiscale codiceFiscale : listaCF) {
+                if (codiceFiscale.getValiditaCF().equals(ValiditaCF.SPAIATO)) {
                     xmlw.writeStartElement(Costanti.TAG_CODICE);
-                    xmlw.writeCharacters(listaCF.get(i).getNome());
+                    xmlw.writeCharacters(codiceFiscale.getNome());
                     xmlw.writeEndElement();
                 }
             }
@@ -308,15 +291,14 @@ public final class InterfacciaXML
 
     /**
      * Conta quanti cf spaiati ci sono
-     * @param listaCF
-     * @return
+     * @param listaCF lista dei codici fiscali
+     * @return il numero dei codici fiscali spaiati
      */
     private static int getNumeroSpaiati(ArrayList<CodiceFiscale> listaCF)
     {
         int count = 0;
-        for (int i = 0; i < listaCF.size(); i++) {
-            if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.SPAIATO))
-            {
+        for (CodiceFiscale codiceFiscale : listaCF) {
+            if (codiceFiscale.getValiditaCF().equals(ValiditaCF.SPAIATO)) {
                 count++;
             }
         }
@@ -325,26 +307,17 @@ public final class InterfacciaXML
 
     /**
      * Conta quanti cf validi ci sono
-     * @param listaCF
-     * @return
      */
     private static int getNumeroInvalidi(ArrayList<CodiceFiscale> listaCF)
     {
         int count = 0;
-        for (int i = 0; i < listaCF.size(); i++) {
-            if(listaCF.get(i).getValiditaCF().equals(ValiditaCF.INVALIDO))
-            {
+        for (CodiceFiscale codiceFiscale : listaCF) {
+            if (codiceFiscale.getValiditaCF().equals(ValiditaCF.INVALIDO)) {
                 count++;
             }
         }
         return count;
 
     }
-
-
-    /**
-     * @return numero degli elementi che vengono indicati come primo attributo in un file xml
-     * @throws XMLStreamException
-     */
 
 }
